@@ -1,0 +1,192 @@
+#:kivy 2.0.0
+
+MDScreen:
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "16dp"
+        spacing: "12dp"
+
+        MDLabel:
+            text: "Cliente Modbus TCP"
+            font_style: "H5"
+            bold: True
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDGridLayout:
+            cols: 2
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: "10dp"
+
+            MDTextField:
+                id: ip_field
+                hint_text: "IP do servidor"
+                text: "127.0.0.1"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+            MDTextField:
+                id: port_field
+                hint_text: "Porta"
+                text: "502"
+                input_filter: "int"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            spacing: "10dp"
+
+            MDRaisedButton:
+                text: "Conectar"
+                on_release: app.conectar()
+
+            MDRectangleFlatButton:
+                text: "Desconectar"
+                on_release: app.desconectar()
+
+            MDLabel:
+                id: status_label
+                text: "Status: desconectado"
+                halign: "right"
+
+        MDGridLayout:
+            cols: 2
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: "10dp"
+
+            MDTextField:
+                id: address_field
+                hint_text: "Endereco Modbus"
+                text: "0"
+                input_filter: "int"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+            MDTextField:
+                id: value_field
+                hint_text: "Valor a escrever"
+                text: "1"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+            MDTextField:
+                id: bit_field
+                hint_text: "Bit inicial/posicao do bit"
+                text: "0"
+                input_filter: "int"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+            MDTextField:
+                id: interval_field
+                hint_text: "Intervalo da leitura recorrente (s)"
+                text: "1"
+                input_filter: "float"
+                mode: "rectangle"
+                size_hint_y: None
+                height: "56dp"
+
+        MDLabel:
+            text: "Tipo de dado"
+            font_style: "Subtitle1"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            spacing: "8dp"
+
+            MDRaisedButton:
+                id: type_coil_button
+                text: "Coil"
+                on_release: app.selecionar_tipo("coil")
+
+            MDRaisedButton:
+                id: type_holding_button
+                text: "Holding"
+                on_release: app.selecionar_tipo("holding")
+
+            MDRaisedButton:
+                id: type_float_button
+                text: "Float"
+                on_release: app.selecionar_tipo("float")
+
+            MDRaisedButton:
+                id: type_bit_button
+                text: "Bit"
+                on_release: app.selecionar_tipo("bit")
+
+            MDRaisedButton:
+                id: type_bits_button
+                text: "Bits"
+                on_release: app.selecionar_tipo("bits")
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            spacing: "8dp"
+
+            MDCheckbox:
+                id: recurrent_checkbox
+                size_hint: None, None
+                size: "48dp", "48dp"
+                on_active: app.alternar_leitura_recorrente(self.active)
+
+            MDLabel:
+                text: "Leitura recorrente"
+                valign: "middle"
+
+            MDLabel:
+                id: selected_type_label
+                text: "Selecionado: holding"
+                halign: "right"
+                valign: "middle"
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            spacing: "10dp"
+
+            MDRaisedButton:
+                text: "Ler"
+                on_release: app.ler()
+
+            MDRaisedButton:
+                text: "Escrever"
+                on_release: app.escrever()
+
+        MDLabel:
+            text: "Resultado"
+            font_style: "Subtitle1"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDLabel:
+            id: result_label
+            text: "-"
+            size_hint_y: None
+            height: max(self.texture_size[1], dp(28))
+
+        MDLabel:
+            text: "Log"
+            font_style: "Subtitle1"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        ScrollView:
+            MDLabel:
+                id: log_label
+                text: ""
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
