@@ -91,7 +91,7 @@ class Interface(MDApp):
         }
         return nomes.get(tipo_dado, tipo_dado)
 
-    def ler(self):
+    def ler(self, dt=None):
         try:
             self.verificar_cliente_conectado()
             endereco = self.obter_endereco()
